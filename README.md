@@ -54,7 +54,7 @@ Deploy:
     terraform plan
     terraform apply
 
-## Testing your deploymnet
+## Testing your deploymnet (Work in progress)
 
 After the deployment is finished, you can test that your tomcat was deployed correctly and can access the database going to the url:
 
@@ -64,7 +64,7 @@ http://<load balancer IP>/clusterjsp/HaJsp.jsp
 `````
 As the load balancer alternates between the 2 nodes, the session data should persist.
 
-## Destroy the Deployment
+## Destroy the Deployment 
 When you no longer need the deployment, you can run this command to destroy it:
 
     terraform destroy
