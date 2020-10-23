@@ -1,4 +1,4 @@
-# oci-arch-tomcat-autonomous
+# oci-arch-tomcat-mds
 
 Apache Tomcat® is an open source Java application server. It implements the Java Servlet, JavaServer Pages, Java Expression Language and Java WebSocket technologies.
 
@@ -15,8 +15,8 @@ and [setup guide](https://www.terraform.io/docs/providers/oci/guides/version-3-u
 ## Clone the Module
 Now, you'll want a local copy of this repo. You can make that with the commands:
 
-    git clone https://github.com/oracle-quickstart/oci-arch-tomcat-autonomous.git
-    cd oci-arch-tomcat-autonomous
+    git clone https://github.com/oracle-quickstart/oci-arch-tomcat-mds.git
+    cd oci-arch-tomcat-mds
     ls
 
 ## Prerequisites
@@ -69,13 +69,11 @@ When you no longer need the deployment, you can run this command to destroy it:
 
     terraform destroy
 
-## Tomcat-Autonomous Database Architecture
+## Tomcat-MDS Database Architecture
 
 ![](./images/architecture-deploy-tomcat-mds.png)
-
-Although the diagram shows a private subnet for the Tomcat servers, the scripts are provisioning them on a public subnet as there is no bastion to allow access to the servers.
 
 
 ## Reference Architecture
 
-- [Deploy Apache Tomcat connected to an autonomous database](https://docs.oracle.com/en/solutions/deploy-tomcat-mds)
+- [Deploy Apache Tomcat connected to an MySQL database service](https://docs.oracle.com/en/solutions/deploy-tomcat-mds)
