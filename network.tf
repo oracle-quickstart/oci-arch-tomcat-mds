@@ -72,81 +72,6 @@ resource "oci_core_security_list" "vcn01_db_security_list" {
     }
              
 }
-resource "oci_core_network_security_group" "BastionSecurityGroup" {
-    compartment_id = var.compartment_ocid
-    vcn_id = oci_core_vcn.vcn01.id
-    display_name = "Bastion_NSG"
-}
-
-resource "oci_core_network_security_group_security_rule" "BastionSecurityIngressGroupRules" {
-    network_security_group_id = oci_core_network_security_group.BastionSecurityGroup.id
-    direction = "INGRESS"
-    protocol = "6"
-    source = "0.0.0.0/0"
-    source_type = "CIDR_BLOCK"
-    tcp_options {
-        destination_port_range {
-            max = 22
-            min = 22
-        }
-    }
-}
-
-resource "oci_core_network_security_group" "LBSecurityGroup" {
-    compartment_id = var.compartment_ocid
-    vcn_id = oci_core_vcn.vcn01.id
-    display_name = "LB_NSG"
-}
-
-resource "oci_core_network_security_group_security_rule" "LBSecurityIngressGroupRules_TCP80" {
-    network_security_group_id = oci_core_network_security_group.LBSecurityGroup.id
-    direction = "INGRESS"
-    protocol = "6"
-    source = "0.0.0.0/0"
-    source_type = "CIDR_BLOCK"
-    tcp_options {
-        destination_port_range {
-            max = 80
-            min = 80
-        }
-    }
-}
-
-resource "oci_core_network_security_group_security_rule" "LBSecurityIngressGroupRules_TCP443" {
-    network_security_group_id = oci_core_network_security_group.LBSecurityGroup.id
-    direction = "INGRESS"
-    protocol = "6"
-    source = "0.0.0.0/0"
-    source_type = "CIDR_BLOCK"
-    tcp_options {
-        destination_port_range {
-            max = 443
-            min = 443
-        }
-    }
-}
-
-
-resource "oci_core_network_security_group" "APPSecurityGroup" {
-    compartment_id = var.compartment_ocid
-    vcn_id = oci_core_vcn.vcn01.id
-    display_name = "APP_NSG"
-}
-
-resource "oci_core_network_security_group_security_rule" "APPSecurityIngressGroupRules" {
-    network_security_group_id = oci_core_network_security_group.APPSecurityGroup.id
-    direction = "INGRESS"
-    protocol = "6"
-    source = "0.0.0.0/0"
-    source_type = "CIDR_BLOCK"
-    tcp_options {
-        destination_port_range {
-            max = 8080
-            min = 8080
-        }
-    }
-}
-
 
 resource "oci_core_route_table" "vnc01_nat_route_table" {
     compartment_id = var.compartment_ocid
@@ -200,33 +125,9 @@ resource "oci_core_subnet" "vcn01_subnet_db01" {
     display_name = var.vcn01_subnet_db01_display_name
     prohibit_public_ip_on_vnic = true
 }
+
 resource "oci_core_route_table_attachment" "vcn01_subnet_db01_route_table_attachment" {
   subnet_id = oci_core_subnet.vcn01_subnet_db01.id
   route_table_id = oci_core_route_table.vnc01_nat_route_table.id
 }
 
-
-# # Bastion VM
-
-resource "oci_core_instance" "bastion_instance" {
-  availability_domain = var.availablity_domain_name
-  compartment_id = var.compartment_ocid
-  display_name = "BastionVM"
-  shape = var.InstanceShape
-
-  create_vnic_details {
-    subnet_id = oci_core_subnet.vcn01_subnet_pub02.id
-    display_name = "primaryvnic"
-    assign_public_ip = true
-  }
-
-  source_details {
-    source_type             = "image"
-    source_id               = data.oci_core_images.InstanceImageOCID.images[0].id
-    boot_volume_size_in_gbs = "50"
-  }
-
-  metadata = {
-    ssh_authorized_keys = tls_private_key.public_private_key_pair.public_key_openssh
-  }
-}

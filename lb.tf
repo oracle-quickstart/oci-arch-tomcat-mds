@@ -2,7 +2,7 @@
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
 resource "oci_load_balancer" "lb01" {
-  shape          = "10Mbps"
+  shape          = var.lb_shape
   compartment_id = var.compartment_ocid
 
   subnet_ids = [
@@ -10,6 +10,7 @@ resource "oci_load_balancer" "lb01" {
   ]
 
   display_name = "load_balancer_01"
+  network_security_group_ids = [oci_core_network_security_group.LBSecurityGroup.id]
 }
 
 resource "oci_load_balancer_backend_set" "lb_be_app01" {
@@ -19,11 +20,11 @@ resource "oci_load_balancer_backend_set" "lb_be_app01" {
 
   health_checker {
     port                = "8080"
-    protocol            = "TCP"
-    # response_body_regex = ".*"
-    # url_path            = "/"
+    protocol            = "HTTP"
+    response_body_regex = ".*"
+    url_path            = "/"
     interval_ms         = "10000"
-    # return_code         = "200"
+    return_code         = "200"
     timeout_in_millis   = "3000"
     retries             = "3"
   }

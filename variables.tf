@@ -59,6 +59,10 @@ variable "vcn01_subnet_db01_display_name" {
   default = "vcn01_subnet_db01"
 }
 
+variable "lb_shape" {
+  default = "10Mbps"
+}
+
 variable "use_existing_network" {
   type = bool
   default = false

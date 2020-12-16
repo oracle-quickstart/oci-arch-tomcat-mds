@@ -27,6 +27,7 @@ resource "oci_core_instance" "tomcat-server" {
     subnet_id = oci_core_subnet.vcn01_subnet_app01.id
     display_name = "primaryvnic"
     assign_public_ip = false
+    nsg_ids = [oci_core_network_security_group.SSHSecurityGroup.id, oci_core_network_security_group.APPSecurityGroup.id]
   }
 
   source_details {
