@@ -7,8 +7,12 @@
 variable "tenancy_ocid" {}
 variable "region" {}
 variable "compartment_ocid" {}
-variable "ssh_public_key" {}
+variable "fingerprint" {}
 variable "user_ocid" {}
+variable "private_key_path" {}
+variable "availablity_domain_name" {}
+variable "mysql_db_system_admin_password" {}
+
 variable "igw_display_name" {
   default = "internet-gateway"
 }
@@ -78,16 +82,29 @@ variable "InstanceShape" {
 variable "OsImage" {
    default = "Oracle-Linux-7.8-2020.05.26-0"
 }
-variable "ATP_tde_wallet_zip_file" {default = "tde_wallet_ATPdb1.zip"}
+
+variable "tomcat_port" {
+  default = 8080
+}
 
 variable "numberOfNodes" {default = 2}
 
-variable mysql_db_system_admin_password {}
-variable mysql_db_system_admin_username {}
+
+variable "mysql_db_system_admin_username" {
+  default = "admin"
+}
 # variable mysql_db_system_availability_domain {}
 # variable mysql_configuration_id {}
 # variable mysql_shape_name {} 
-variable mysql_db_system_backup_policy_is_enabled {}
-variable mysql_db_system_data_storage_size_in_gb {}
-variable mysql_db_system_display_name {}
-variable mysql_db_system_hostname_label {}
+variable mysql_db_system_backup_policy_is_enabled {
+  default = true
+}
+variable mysql_db_system_data_storage_size_in_gb {
+  default = 50
+}
+variable mysql_db_system_display_name {
+  default = "mysql_service"
+}
+variable mysql_db_system_hostname_label {
+  default = "mysqlhost"
+}

@@ -37,11 +37,12 @@ Secondly, create a `terraform.tfvars` file and populate with the following infor
 # Authentication
 tenancy_ocid         = "<tenancy_ocid>"
 
-# SSH Keys
-ssh_public_key  = "<public_ssh_key_path>"
-
 # Region
 region = "<oci_region>"
+
+# Availability Domain Name
+availability_domain = <availablity_domain_name>
+
 
 # Compartment
 compartment_ocid = "<compartment_ocid>"

@@ -209,7 +209,7 @@ resource "oci_core_route_table_attachment" "vcn01_subnet_db01_route_table_attach
 # # Bastion VM
 
 resource "oci_core_instance" "bastion_instance" {
-  availability_domain = data.oci_identity_availability_domains.ADs.availability_domains[1]["name"]
+  availability_domain = var.availablity_domain_name
   compartment_id = var.compartment_ocid
   display_name = "BastionVM"
   shape = var.InstanceShape
@@ -227,9 +227,6 @@ resource "oci_core_instance" "bastion_instance" {
   }
 
   metadata = {
-    ssh_authorized_keys = var.ssh_public_key
+    ssh_authorized_keys = tls_private_key.public_private_key_pair.public_key_openssh
   }
-  # timeouts {
-  #   create = "60m"
-  # }
 }
