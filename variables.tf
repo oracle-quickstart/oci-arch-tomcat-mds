@@ -97,6 +97,11 @@ variable "numberOfNodes" {default = 2}
 variable "mysql_db_system_admin_username" {
   default = "admin"
 }
+
+variable "mysql_db_name" {
+  default = "mydb"
+}
+
 # variable mysql_db_system_availability_domain {}
 # variable mysql_configuration_id {}
 # variable mysql_shape_name {} 

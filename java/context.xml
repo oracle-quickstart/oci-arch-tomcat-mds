@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+  <Resource name="jdbc/MyLocalSQLDB"
+	          auth="Container"
+	          type="javax.sql.DataSource"
+	          username="${db_user_name}"
+	          password="${db_user_password}"
+	          driverClassName="com.mysql.cj.jdbc.Driver"
+	          url="jdbc:mysql://${db_server_ip_address}:3306/ocidb"
+	          maxActive="100" maxIdle="30" maxWait="10000"/>
+
+  <WatchedResource>WEB-INF/web.xml</WatchedResource>
+</Context>

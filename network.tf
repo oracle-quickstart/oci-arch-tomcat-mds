@@ -123,6 +123,7 @@ resource "oci_core_subnet" "vcn01_subnet_db01" {
     dns_label = "dbsubnet"
     vcn_id = oci_core_vcn.vcn01.id
     display_name = var.vcn01_subnet_db01_display_name
+    security_list_ids = [oci_core_security_list.vcn01_db_security_list.id]
     prohibit_public_ip_on_vnic = true
 }
 
