@@ -271,17 +271,17 @@ outputs:
   bastion_public_ip:
     title: "Bastion Host Public IP"
     displayText: "Bastion Host Public IP"
-    type: copyableString
+    type: string
     visible: true
 
   tomcat-server1_private_ip:
     title: "Tomcat Server1 Private IP"
     displayText: "Tomcat Server1 Private IP"
-    type: copyableString
+    type: string
     visible: true
 
   tomcat-server2_private_ip:
     title: "Tomcat Server2 Private IP"
     displayText: "Tomcat Server2 Private IP"
-    type: copyableString
+    type: string
     visible: true
