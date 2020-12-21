@@ -237,7 +237,7 @@ variables:
     maximum: 65536
     multipleOf: 1
     default: 50 
-    description: "MDS DBSystem Data Storage size in GB"
+    title: "MDS DBSystem Data Storage size in GB"
     description: "Choose MDS DBSystem Data Storage size in GB."
 
   mysql_db_system_display_name: 
