@@ -49,7 +49,7 @@ resource "null_resource" "tomcat1_bootstrap" {
     }
 
     content     = data.template_file.tomcat_template1.rendered
-    destination = "~/tomcat1_bootstrap.sh"
+    destination = "/home/opc/tomcat1_bootstrap.sh"
   }
 
   provisioner "file" {
@@ -67,8 +67,8 @@ resource "null_resource" "tomcat1_bootstrap" {
       bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
 
-    content     = "java/javaocidemo.war"
-    destination = "~/javaocidemo.war"
+    source      = "java/javaocidemo.war"
+    destination = "/home/opc/javaocidemo.war"
   }
 
   provisioner "file" {
@@ -102,11 +102,11 @@ resource "null_resource" "tomcat1_bootstrap" {
       bastion_port = "22"
       bastion_user = "opc"
       bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
-
+  
     }
     inline = [
-      "chmod +x ~/tomcat1_bootstrap.sh",
-      "sudo ~/tomcat1_bootstrap.sh",
+     "chmod +x ~/tomcat1_bootstrap.sh",
+     "sudo ~/tomcat1_bootstrap.sh"
     ]
   }
 }
@@ -133,6 +133,7 @@ resource "null_resource" "tomcat2_bootstrap" {
     destination = "~/tomcat2_bootstrap.sh"
   }
 
+
   provisioner "file" {
     connection {
       type        = "ssh"
@@ -148,7 +149,7 @@ resource "null_resource" "tomcat2_bootstrap" {
       bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
 
-    content     = "java/javaocidemo.war"
+    source     = "java/javaocidemo.war"
     destination = "~/javaocidemo.war"
   }
 
@@ -188,7 +189,7 @@ resource "null_resource" "tomcat2_bootstrap" {
     }
     inline = [
       "chmod +x ~/tomcat2_bootstrap.sh",
-      "sudo ~/tomcat2_bootstrap.sh",
+      "sudo ~/tomcat2_bootstrap.sh"
     ]
   }
 }

@@ -7,11 +7,13 @@ yum install -y jdk
 yum install -y tomcat
 yum install -y tomcat-webapps 
 yum install -y tomcat-admin-webapps
-yum install -y mysql-connector-java
 
 # MySQL Shell
 yum install -y https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm
 yum install -y mysql-shell
+
+# Install of mysql-connector-java
+yum install -y mysql-connector-java
 
 # Create MySQL Database
 rm -rf /tmp/create_db.sql
@@ -28,12 +30,14 @@ mysqlsh --user ${db_user_name} --password=${db_user_password} --host ${db_server
 # Prepare application and Tomcat
 cp /home/opc/context.xml /etc/tomcat/context.xml
 cp /usr/share/java/mysql-connector-java.jar /usr/share/tomcat/lib/
-cp /home/opc/javaocidemo.war /usr/share/tomcat/webapps/
 
 # Start Tomcat
+setsebool -P tomcat_can_network_connect_db 1
 systemctl start tomcat
 systemctl status tomcat
 systemctl enable tomcat
+cp /home/opc/javaocidemo.war /usr/share/tomcat/webapps/
+sleep 20
 
 service firewalld stop
 systemctl disable firewalld

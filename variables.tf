@@ -63,11 +63,6 @@ variable "lb_shape" {
   default = "10Mbps"
 }
 
-variable "use_existing_network" {
-  type = bool
-  default = false
-}
-
 # OS Images
 variable "instance_os" {
   description = "Operating system for compute instances"
@@ -86,13 +81,6 @@ variable "InstanceShape" {
 variable "OsImage" {
    default = "Oracle-Linux-7.8-2020.05.26-0"
 }
-
-variable "tomcat_port" {
-  default = 8080
-}
-
-variable "numberOfNodes" {default = 2}
-
 
 variable "mysql_db_system_admin_username" {
   default = "admin"
