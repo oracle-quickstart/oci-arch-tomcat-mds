@@ -37,9 +37,8 @@ variableGroups:
   - vcn01_subnet_app01_display_name 
   - vcn01_subnet_db01_cidr_block
   - vcn01_subnet_db01_display_name
-  - instance_shape
-  - instance_os
-  - linux_os_version
+  - InstanceShape
+  - OsImage
   - mysql_db_system_admin_username
   - mysql_db_name
   - mysql_db_system_backup_policy_is_enabled
@@ -186,7 +185,7 @@ variables:
     description: "Choose Display Name for your MDS Private Subnet."
     default: "vcn01_subnet_db01"
 
-  instance_shape:
+  InstanceShape:
     type: oci:core:instanceshape:name
     required: false
     title: "Instance Shape"
@@ -195,19 +194,12 @@ variables:
     dependsOn:
       compartmentId: ${compartment_ocid}
   
-  instance_os:
+  OsImage:
     type: string
     required: false
-    title: "Instance OS"
-    description: "An Operating System that determines the operating system for the instance."
-    default: "Oracle Linux"
-  
-  linux_os_version:
-    type: string
-    required: false
-    title: "Instance OS version"
-    description: "An Operating System version that determines the operating system version for the instance."
-    default: "7.8"
+    title: "OS Image"
+    description: "Choose OS Image determines the operating system for the instance."
+    default: "Oracle-Linux-7.8-2020.05.26-0"
 
   mysql_db_system_admin_username:
     type: string

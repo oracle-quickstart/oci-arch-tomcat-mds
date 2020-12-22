@@ -63,17 +63,6 @@ variable "lb_shape" {
   default = "10Mbps"
 }
 
-# OS Images
-variable "instance_os" {
-  description = "Operating system for compute instances"
-  default     = "Oracle Linux"
-}
-
-variable "linux_os_version" {
-  description = "Operating system version for all Linux instances"
-  default     = "7.8"
-}
-
 variable "InstanceShape" {
     default = "VM.Standard2.1"
 }
