@@ -79,7 +79,7 @@ Run the following commands:
 After the deployment is finished, you can test that your Tomcat was deployed correctly and can access the tomcat demo application with MDS as database system. Pick up the value of the loadbalancer_public_url:
 
 ````
-loadbalancer_public_url = http://http://193.122.198.19//javaocidemo/ocidemo
+loadbalancer_public_url = http://193.122.198.19/javaocidemo/ocidemo
 
 `````
 
