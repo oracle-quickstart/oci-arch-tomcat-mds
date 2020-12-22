@@ -25,11 +25,6 @@ data "oci_mysql_mysql_configurations" "mds_mysql_configurations" {
 
 }
 
-data "oci_core_images" "OSImageLocal" {
-  compartment_id = var.compartment_ocid
-  display_name   = var.OsImage
-}
-
 data "oci_core_vnic_attachments" "tomcat-server1_primaryvnic_attach" {
   availability_domain = var.availablity_domain_name
   compartment_id      = var.compartment_ocid

@@ -67,8 +67,14 @@ variable "InstanceShape" {
     default = "VM.Standard2.1"
 }
 
-variable "OsImage" {
-   default = "Oracle-Linux-7.8-2020.05.26-0"
+variable "instance_os" {
+  description = "Operating system for compute instances"
+  default     = "Oracle Linux"
+}
+
+variable "linux_os_version" {
+  description = "Operating system version for all Linux instances"
+  default     = "7.8"
 }
 
 variable "mysql_db_system_admin_username" {
