@@ -37,7 +37,7 @@ If you don't have the required permissions and quota, contact your tenancy admin
 
 ### Clone the Module
 
-1. Now, you'll want a local copy of this repo. You can make that with the commands:
+Now, you'll want a local copy of this repo. You can make that with the commands:
 
 ```
     git clone https://github.com/oracle-quickstart/oci-arch-tomcat-mds.git
@@ -45,7 +45,10 @@ If you don't have the required permissions and quota, contact your tenancy admin
     ls
 ```
 
-2. Create a `terraform.tfvars` file, and specify the following variables:
+### Prerequisites
+First off, you'll need to do some pre-deploy setup.  That's all detailed [here](https://github.com/cloud-partners/oci-prerequisites).
+
+Create a `terraform.tfvars` file, and specify the following variables:
 
 ```
 # Authentication
@@ -76,13 +79,11 @@ Run the following commands:
     terraform apply
 
 
-### Testing your deploymnet
-
+### Testing your Deployment
 After the deployment is finished, you can test that your Tomcat was deployed correctly and can access the tomcat demo application with MDS as database system. Pick up the value of the loadbalancer_public_url:
 
 ````
 loadbalancer_public_url = http://193.122.198.19/javaocidemo/ocidemo
-
 `````
 
 Then copy it into Web browser. Here is the example of the succesfull outcome:
