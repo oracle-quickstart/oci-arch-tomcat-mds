@@ -9,7 +9,7 @@ MySQL Database Service is a fully-managed Oracle Cloud Infrastructure native ser
 
 - Permission to `manage` the following types of resources in your Oracle Cloud Infrastructure tenancy: `vcns`, `internet-gateways`, `route-tables`, `network-security-groups`, `subnets`, `mysql-family`, and `instances`.
 
-- Quota to create the following resources: 1 VCN, 3 subnets, 1 Internet Gateway, 1 NAT Gateway, 2 route rules, 1 MDS instance, and 3 compute instances (bastion + 2 tomcat servers).
+- Quota to create the following resources: 1 VCN, 3 subnets, 1 Internet Gateway, 1 NAT Gateway, 2 route rules, 1 MDS instance, and 3 compute instances (bastion host + 2 Tomcat servers).
 
 If you don't have the required permissions and quota, contact your tenancy administrator. See [Policy Reference](https://docs.cloud.oracle.com/en-us/iaas/Content/Identity/Reference/policyreference.htm), [Service Limits](https://docs.cloud.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm), [Compartment Quotas](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcequotas.htm).
 
@@ -39,9 +39,11 @@ If you don't have the required permissions and quota, contact your tenancy admin
 
 1. Now, you'll want a local copy of this repo. You can make that with the commands:
 
+```
     git clone https://github.com/oracle-quickstart/oci-arch-tomcat-mds.git
     cd oci-arch-tomcat-mds
     ls
+```
 
 2. Create a `terraform.tfvars` file, and specify the following variables:
 
@@ -87,7 +89,7 @@ Then copy it into Web browser. Here is the example of the succesfull outcome:
 
 ![](./images/outcome.png)
 
-As the load balancer alternates between the 2 nodes, the session data should persist.
+As the load balancer alternates between the 2 Tomcat nodes, the session data should persist.
 
 ### Destroy the Deployment
 When you no longer need the deployment, you can run this command to destroy the resources:
