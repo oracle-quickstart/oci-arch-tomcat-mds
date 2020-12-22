@@ -208,7 +208,6 @@ variables:
     type: enum
     required: false
     title: "Instance OS version"
-    title: "OS Image"
     description: "An Operating System version that determines the operating system version for the instance."
     default: "7.8"
     enum:
