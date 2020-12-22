@@ -74,14 +74,19 @@ Run the following commands:
     terraform apply
 
 
-### Testing your deploymnet (Work in progress)
+### Testing your deploymnet
 
-After the deployment is finished, you can test that your tomcat was deployed correctly and can access the tomcat demo application accessing MDS:
+After the deployment is finished, you can test that your Tomcat was deployed correctly and can access the tomcat demo application with MDS as database system. Pick up the value of the loadbalancer_public_url:
 
 ````
-http://<loadbalancer_public_url>/javaocidemo/ocidemo
+loadbalancer_public_url = http://http://193.122.198.19//javaocidemo/ocidemo
 
 `````
+
+Then copy it into Web browser. Here is the example of the succesfull outcome:
+
+![](./images/outcome.png)
+
 As the load balancer alternates between the 2 nodes, the session data should persist.
 
 ### Destroy the Deployment
