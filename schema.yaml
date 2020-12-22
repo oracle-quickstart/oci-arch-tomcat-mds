@@ -78,7 +78,7 @@ variables:
     visibile: true
     title: "MDS Admin Password"
     description: "Type MySQL DBSystem (MDS) Admin Password"
-    minLength: 12
+    minLength: 9
     maxLength: 30
     pattern: ^[A-Za-z][A-Za-z0-9_#\$]+$ 
  
@@ -91,11 +91,11 @@ variables:
     default: "100Mbps"
     required: false 
     enum:
-     - "100Mbps"
-     - "10Mbps"
-     - "10Mbps-Micro"
-     - "400Mbps"
-     - "8000Mbps"
+      - "100Mbps"
+      - "10Mbps"
+      - "10Mbps-Micro"
+      - "400Mbps"
+      - "8000Mbps"
 
   igw_display_name:
     type: string
