@@ -46,6 +46,7 @@ variableGroups:
   - mysql_db_system_data_storage_size_in_gb
   - mysql_db_system_display_name
   - mysql_db_system_hostname_label
+  - release
 
 variables:
   
@@ -257,6 +258,12 @@ variables:
     title: "MDS DBSystem Hostname Label"
     description: "Type MDS DBSystem Hostname Label."
     default: "mysqlhost"
+
+  release:
+    type: string
+    required: false
+    visible: false
+    title: "Reference Architecture Release (OCI Architecture Center)"
 
 outputs:
 
