@@ -1,13 +1,15 @@
-<header>
-	<nav class="navbar navbar-expand-md navbar-dark"
-		style="background-color: tomato">
-		<div>
-			<a href="https://www.javaguides.net" class="navbar-brand"> Todo App</a>
-		</div>
+<nav class="uk-navbar uk-margin-large-bottom">
+	
+	<ul class="uk-navbar-nav uk-hidden-small">
+		<li class="uk-active"><a href="layouts_frontpage.html">Frontpage</a>
+		</li>
+		<li><a href="layouts_portfolio.html">Portfolio</a></li>
+		<li><a href="layouts_blog.html">Blog</a></li>
+		<li><a href="layouts_documentation.html">Documentation</a></li>
+		<li><a href="layouts_contact.html">Contact</a></li>
+		<li><a href="layouts_login.html">Login</a></li>
+	</ul>
+	<a href="#offcanvas" class="uk-navbar-toggle uk-visible-small"
+		data-uk-offcanvas></a>
+</nav>
 
-		<ul class="navbar-nav navbar-collapse justify-content-end">
-			<li><a href="<%= request.getContextPath() %>/login" class="nav-link">Login</a></li>
-			<li><a href="<%= request.getContextPath() %>/register" class="nav-link">Signup</a></li>
-		</ul>
-	</nav>
-</header>
