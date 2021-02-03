@@ -21,26 +21,26 @@
 
 
 	<div
-		class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
+		class="uk-container uk-container-center uk-margin-top uk-margin">
 		<jsp:include page="/common/header.jsp"></jsp:include>
 		<div class="uk-grid" data-uk-grid-margin>
 			<div class="uk-width-medium-1-1">
 
-				<div class=" uk-text-left"
+				<div class="uk-width-1-1"
 					style="background: url('https://developer.oracle.com/a/devo/images/ch12-developer-test.jpg') 50% 0 no-repeat; height: 450px;">
-					<div class="uk-light ">
-						<h3 class="uk-heading-medium uk-margin uk-width-1-1">Sample
+					<div class="uk-light uk-flex uk-flex-column uk-flex-between  ">
+						<h3 class="uk-heading-medium uk-margin-top uk-margin-left uk-width-1-1">Sample
 							Todo Application</h3>
-						<div class="uk-text-large uk-margin uk-width-1-1">Demo running
+						<div class="uk-text-large uk-margin-top uk-margin-left uk-width-1-2">Demo running
 							Apache Tomcat & MySQL on ARM compute instances on OCI</div>
-						<div class="uk-grid-small uk-child-width-auto" uk-grid>
-							<div>
+						<div class="uk-grid-collapse uk-margin-large-top uk-margin-left  uk-child-width-expand uk-width-1-2" uk-grid>
+						 <div>
 								<a class="uk-button uk-button-primary uk-button-large" href="#">Github</a>
 							</div>
 							<div>
 								<a class="uk-button  uk-button-primary uk-button-large" href="#">Learn
 									More</a>
-							</div>
+									</div>
 						</div>
 
 					</div>
@@ -49,9 +49,12 @@
 			</div>
 		</div>
 		<div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
-			<h3 class="text-center">List of Todos</h3>
+			<div class="uk-flex uk-flex-row uk-flex-between  uk-width-1-1">
+			
+			<h3 class="uk-text-left">List of Todos</h3><span class="uk-badge uk-text-right">${listTodo.size()}</span>
+			</div>
 			<hr>
-			<div class="uk-margin">
+			<div class="uk-margin uk-align-right">
 
 				<a class="uk-button uk-button-default" href="<%=request.getContextPath()%>/new" class="btn btn-success">Add
 					Todo</a>
@@ -64,7 +67,7 @@
 						<input type="hidden" name="id"
 							value="<c:out value='${todo.id}' />" />
 						<div
-							class="uk-card uk-card-default uk-width-large uk-margin-auto uk-box-shadow-large"
+							class="uk-card uk-card-default uk-width-xlarge uk-margin-auto uk-box-shadow-large"
 							uk-scrollspy=" cls: uk-animation-fade; delay: 200;repeat: true">
 							<div class="uk-card-body">
 								<div uk-grid>
@@ -74,7 +77,9 @@
 										</h3>
 									</div>
 									<div class="uk-width-auto">
-										<a uk-icon="close"></a>
+										<c:if test="${todo.status}"><span class="uk-label uk-label-success">Complete</span></c:if>
+										<c:if test="${!todo.status}"><span class="uk-label uk-label-warning">Pending</span></c:if>
+										
 									</div>
 								</div>
 								<p>

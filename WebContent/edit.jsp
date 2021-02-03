@@ -1,24 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
 <title>User Management Application</title>
 
 <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+	href="https://cdn.jsdelivr.net/npm/uikit@3.6.15/dist/css/uikit.min.css" />
+<script
+	src="https://cdn.jsdelivr.net/npm/uikit@3.6.15/dist/js/uikit.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/uikit@3.6.15/dist/js/uikit-icons.min.js"></script>
 
-</head>
 
 </head>
 <body>
-		<jsp:include page="/common/header.jsp"></jsp:include>
+	
 
-	<div class="container col-md-5">
-		<div class="card">
-			<div class="card-body">
+	<div
+		class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
+		<jsp:include page="/common/header.jsp"></jsp:include>
+		<div
+			class="uk-card uk-card-default uk-width-xlarge uk-margin-auto uk-box-shadow-large">
+			<div class="uk-card-body">
 				<c:if test="${todo != null}">
 					<form action="update" method="post">
 				</c:if>
@@ -29,10 +33,12 @@
 				<caption>
 					<h2>
 						<c:if test="${todo != null}">
-            			Edit Todo
+            								<legend class="uk-legend">Edit ${todo.title} </legend>
+
             		</c:if>
 						<c:if test="${todo == null}">
-            			Add New Todo
+            								<legend class="uk-legend">Add a Todo note</legend>
+
             		</c:if>
 					</h2>
 				</caption>
@@ -41,27 +47,35 @@
 					<input type="hidden" name="id" value="<c:out value='${todo.id}' />" />
 				</c:if>
 
-				<fieldset class="form-group">
-					<label>Todo Title</label> <input type="text"
-						value="<c:out value='${todo.title}' />" class="form-control"
-						name="title" required="required" minlength="5">
+				<fieldset class="uk-fieldset">
+
+
+					<div class="uk-margin">
+						<input class="uk-input" name="title" type="text" placeholder="Title" value="<c:out value='${todo.title}' />">
+					</div>
+
+
+					<div class="uk-margin">
+						<textarea class="uk-textarea" name="description" rows="5" placeholder="Description"><c:out value='${todo.description}' /></textarea>
+					</div>
+					
+					<c:if test="${todo != null}">
+            								<div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+						<label><input class="uk-checkbox" name="isDone" type="checkbox" <c:if test="${todo.status}">checked</c:if>/>
+							Mark as complete</label> 
+					</div>
+
+            		</c:if>
+
+					
+
+					
+
 				</fieldset>
 
-				<fieldset class="form-group">
-					<label>Todo Decription</label> <input type="text"
-						value="<c:out value='${todo.description}' />" class="form-control"
-						name="description" minlength="5">
-				</fieldset>
+			
 
-				<fieldset class="form-group">
-					<label>Todo Status</label> <select class="form-control"
-						name="isDone">
-						<option value="false">In Progress</option>
-						<option value="true">Complete</option>
-					</select>
-				</fieldset>
-
-				<button type="submit" class="btn btn-success">Save</button>
+				<button class="uk-button uk-button-default" type="submit" >Save</button>
 				</form>
 			</div>
 		</div>
