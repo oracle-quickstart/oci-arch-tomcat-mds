@@ -107,11 +107,11 @@ public class TodoController extends HttpServlet {
 
 	private void updateTodo(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		
+		String isDone = request.getParameter("isDone");
 		String title = request.getParameter("title");
 		String description = request.getParameter("description");
-		boolean isDone = Boolean.valueOf(request.getParameter("isDone"));
-		Todo updateTodo = new Todo(id, title, description, isDone);
+		boolean status = "on".equalsIgnoreCase(isDone);
+		Todo updateTodo = new Todo(id, title, description, status);
 		
 		todoDAO.updateTodo(updateTodo);
 		

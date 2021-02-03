@@ -79,4 +79,10 @@ public class Todo {
 			 return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Todo [id=" + id + ", title=" + title + ", description=" + description + ", status=" + status + "]";
+	}
+	
 }

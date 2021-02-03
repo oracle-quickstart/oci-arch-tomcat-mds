@@ -125,6 +125,7 @@ public class TodoDaoImpl implements TodoDao {
 	@Override
 	public boolean updateTodo(Todo todo) throws SQLException {
 		boolean rowUpdated;
+		System.out.println("Updating :"+todo);
 		try (Connection connection = JDBCUtils.getConnection(jdbcUrl, dbUser, dbPassword);
 				PreparedStatement statement = connection.prepareStatement(UPDATE_TODO);) {
 			statement.setString(1, todo.getTitle());
