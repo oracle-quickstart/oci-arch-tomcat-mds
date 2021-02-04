@@ -28,10 +28,4 @@ resource "oci_identity_tag" "ArchitectureCenterTag" {
     provisioner "local-exec" {
        command = "sleep 20"
     }
-
-    # Required for longop of tag deletion in background 
-    provisioner "local-exec" {
-       when    = destroy
-       command = "sleep 1200"
-    }
 }
