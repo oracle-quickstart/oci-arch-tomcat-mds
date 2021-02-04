@@ -12,13 +12,13 @@ variableGroups:
   visible: false
   variables:
   - tenancy_ocid
+  - region
 
 - title: Required Configuration
   visible: true  
   variables:
   - mysql_db_system_admin_password
   - compartment_ocid
-  - region
   - availablity_domain_name 
 
 - title: Optional Configuration
