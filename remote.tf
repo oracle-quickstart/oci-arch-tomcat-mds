@@ -1,5 +1,5 @@
 data "template_file" "tomcat_template1" {
-  template = "${file("./scripts/tomcat1_bootstrap.sh")}"
+  template = file("./scripts/tomcat1_bootstrap.sh")
 
   vars = {
     db_name              = var.mysql_db_name
@@ -10,7 +10,7 @@ data "template_file" "tomcat_template1" {
 }
 
 data "template_file" "tomcat_template2" {
-  template = "${file("./scripts/tomcat2_bootstrap.sh")}"
+  template = file("./scripts/tomcat2_bootstrap.sh")
   
   vars = {
     db_name              = var.mysql_db_name
@@ -21,7 +21,7 @@ data "template_file" "tomcat_template2" {
 }
 
 data "template_file" "tomcat_context_xml" {
-  template = "${file("./java/context.xml")}"
+  template = file("./java/context.xml")
   
   vars = {
     db_user_name         = var.mysql_db_system_admin_username

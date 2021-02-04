@@ -23,6 +23,8 @@ resource "oci_core_instance" "bastion_instance" {
   metadata = {
     ssh_authorized_keys = tls_private_key.public_private_key_pair.public_key_openssh
   }
+
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 resource "oci_core_instance" "tomcat-server1" {
@@ -48,6 +50,7 @@ resource "oci_core_instance" "tomcat-server1" {
     ssh_authorized_keys = tls_private_key.public_private_key_pair.public_key_openssh
   }
 
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 resource "oci_core_instance" "tomcat-server2" {
@@ -73,5 +76,6 @@ resource "oci_core_instance" "tomcat-server2" {
     ssh_authorized_keys = tls_private_key.public_private_key_pair.public_key_openssh
   }
 
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 

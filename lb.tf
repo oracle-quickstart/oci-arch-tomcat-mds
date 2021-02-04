@@ -11,6 +11,8 @@ resource "oci_load_balancer" "lb01" {
 
   display_name = "load_balancer_01"
   network_security_group_ids = [oci_core_network_security_group.LBSecurityGroup.id]
+
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 resource "oci_load_balancer_backend_set" "lb_be_app01" {
@@ -36,6 +38,7 @@ resource "oci_load_balancer_listener" "lb_listener_app01" {
   default_backend_set_name = oci_load_balancer_backend_set.lb_be_app01.name
   port                     = 80
   protocol                 = "HTTP"
+
 }
 
 resource "oci_load_balancer_backend" "lb_be_tomcat1" {
