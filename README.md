@@ -4,6 +4,7 @@ Apache Tomcat® is an open source Java application server. It implements the Jav
 
 MySQL Database Service is a fully-managed Oracle Cloud Infrastructure native service. It's developed, managed, and supported by the MySQL team at Oracle. Tasks such as backup and recovery, database and operating system patching, and so on are automated. You are responsible solely for managing your data, schema designs, and access policies.
 
+For details of the architecture, see [_Deploy Apache Tomcat connected to MySQL Database Service_](https://docs.oracle.com/en/solutions/deploy-tomcat-mysql/index.html)
 
 ## Prerequisites
 
