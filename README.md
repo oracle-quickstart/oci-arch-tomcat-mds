@@ -27,6 +27,7 @@ Open the port we are going to expose for the application.
 
 ```
 sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
+sudo firewall-cmd --reload
 ```
 
 Set SELinux to be in **permissive** mode so that `podman` can easily interact with the host. 
@@ -64,7 +65,7 @@ The application uses the Apache Tomcat servlet container and the MySQL database.
 
 First we create a pod using podman
 ```
-podman pod create --name todo-app
+podman pod create --name todo-app -p 8080:8080
 ```
 
 Then we bring up the database container in the pod
@@ -84,7 +85,7 @@ For the MySQL database, we provide the database initialization scripts to the co
 
 Next we deploy the application we previously built as a `.war` file with an Apache Tomcat server. 
 ```
-podman run --pod tomcat \
+podman run --pod todo-app \
 --name todo-tomcat \
 -v "$(pwd)"/target/todo.war:/usr/local/tomcat/webapps/todo.war:z \
 tomcat:9
