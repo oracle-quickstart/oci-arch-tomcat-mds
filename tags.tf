@@ -3,12 +3,6 @@ resource "oci_identity_tag_namespace" "ArchitectureCenterTagNamespace" {
     description = "ArchitectureCenterTagNamespace"
     name = "ArchitectureCenter\\deploy-tomcat-mysql"
 
-    # Required for longop of tag deletion in background (approximately 20 minutes)
-    provisioner "local-exec" {
-       when    = destroy
-       command = "sleep 1200"
-    }
-
     provisioner "local-exec" {
        command = "sleep 10"
     }
