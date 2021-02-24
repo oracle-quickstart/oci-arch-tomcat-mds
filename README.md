@@ -1,40 +1,37 @@
-# Apache Tomcat with MySQL on ARM
+# Run Apache Tomcat with MySQL on Arm
 
-This is an example application that shows a simple Java web-app running on Apache Tomcat using MySQL. Both Tomcat as well as the MySQL instance are running on ARM based compute instances.  
+This example shows how to run a simple Java web app on Apache Tomcat using MySQL. Both Tomcat and the MySQL instance are running on Arm-based compute instances from Oracle Cloud Infrastructure.
 
 ### Prerequisites
 
-The only prerequisites to run this example are :
-- An OCI A1 compute instance that you can SSH in to
-- Traffic on port `8080` should be allowed. [Documentation]()
+To run this example, you need to have  an Oracle Cloud Infrastructure A1 compute instance that you can [access by using SSH](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/managingkeypairs.htm#one).  
+Also, [allow traffic](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securitylists.htm#working) on port 8080.
   
 ## How to run this example
 
-To run this application, simply build the application using the included maven `pom.xml` and start the MySQL and Tomcat docker containers using the commands below. 
+To run this application, first prepare an A1 instance with a few required packages, such as container tools and `git`. Then, clone the repository and build the application by using the included Maven `pom.xml`. Lastly, start the MySQL and Tomcat docker containers by using the container tools.
 
 ### Install container tools
 
-Oracle Linux 8 uses Podman to run and manage containers. Podman is a daemonless container engine for developing, managing, and running Open Container Initiative (OCI) containers and container images on your Linux System. Podman provides a Docker-compatible command line front end that can simply alias the Docker cli, `alias docker=podman`.
+Oracle Linux 8 uses Podman to run and manage containers. Podman is a daemonless container engine for developing, managing, and running Open Container Initiative containers and container images on your Linux system. Podman provides a Docker-compatible command line front end that can alias the Docker CLI: `alias docker=podman`.
 
-Install the `container-tools` module that pulls in all the tools required to work with containers.
+1. Install the `container-tools` module that pulls in all the tools required to work with containers.
+    ```
+    sudo dnf module install container-tools:ol8
+    sudo dnf install git
+    ```
 
-```
-sudo dnf module install container-tools:ol8
-sudo dnf install git
-```
+2. Open the port to expose for the application. 
+    ```
+    sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
+    sudo firewall-cmd --reload
+    ```
 
-Open the port we are going to expose for the application.
-
-```
-sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
-sudo firewall-cmd --reload
-```
-
-Set SELinux to be in **permissive** mode so that `podman` can easily interact with the host. 
-> This is not recommended for production use. However, setting up SELinux policies for containers are outside the scope of this tutorial. Please refer to the Oracle Linux 8  documentation for further details.
-```
-sudo setenforce 0
-```
+3. Set SELinux to be in permissive mode so that Podman can easily interact with the host.
+> **Note**: This is not recommended for production use. However, setting up SELinux policies for containers are outside the scope of this tutorial. For details, see the Oracle Linux 8 documentation.
+    ```
+    sudo setenforce 0
+    ```
 
 ### Clone the source code
 
@@ -47,59 +44,62 @@ cd todo-application
 
 
 
-### Building the web application
+### Build the web application
 
-Java web applications are packaged as web-application archives, or `.war` files. These are `zip` files with additional metadata that describe the application to a servlet container like Apache Tomcat. In this example, we use the java build tool Apache Maven, to build the `.war` file for our application.  To build the application run the following command :
-(make sure you are running the command from where the source files were cloned to)
+Java web applications are packaged as web application archives, or WAR files. WAR files are zip files with metadata that describes the application to a servlet container like Tomcat. This example uses Apache Maven to build the WAR file for the application. 
+To build the application, run the following command. Be sure to run the command from the location where the source files were cloned to.
+
 ```
 podman run -it --rm --name todo-build \
     -v "$(pwd)":/usr/src:z \
     -w /usr/src \
     maven:3.3-jdk-8 mvn clean install
 ```
-This will create a `target` directory and the `.war` file inside it. 
+This command creates a `target` directory and the WAR file inside it. Note that we aren’t installing Maven but instead running the build tooling inside the container. 
 
-### Running the application on the A1 compute shapes
+### Run the application on the A1 compute shapes
 
-The application uses the Apache Tomcat servlet container and the MySQL database. Both Tomcat and the MySQL database support the ARM64v8 architecture, that the OCI A1 Compute uses.
+The application uses the Tomcat servlet container and the MySQL database. Both Tomcat and the MySQL database support the ARM64v8 architecture that the Oracle Cloud Infrastructure A1 compute shape uses.
 
-First we create a pod using podman
-```
-podman pod create --name todo-app -p 8080:8080
-```
+1. Create a pod using Podman.
+    ```
+    podman pod create --name todo-app -p 8080:8080
+    ```
 
-Then we bring up the database container in the pod
+2. Start the database container in the pod.
 
-```
-podman run --pod todo-app -d \
--e MYSQL_ROOT_PASSWORD=pass \
--e MYSQL_DATABASE=demo \
--e MYSQL_USER=todo-user \
--e MYSQL_PASSWORD=todo-pass \
---name todo-mysql \
--v "$(pwd)"/src/main/sql:/docker-entrypoint-initdb.d:z \
-mysql:latest
-```
+    ```
+    podman run --pod todo-app -d \
+    -e MYSQL_ROOT_PASSWORD=pass \
+    -e MYSQL_DATABASE=demo \
+    -e MYSQL_USER=todo-user \
+    -e MYSQL_PASSWORD=todo-pass \
+    --name todo-mysql \
+    -v "$(pwd)"/src/main/sql:/docker-entrypoint-initdb.d:z \
+    mysql:latest
+    ```
 
-For the MySQL database, we provide the database initialization scripts to the container which creates the required database users and tables at startup. Please refer to the [documentation](https://hub.docker.com/_/mysql) for further options including how to export and back up data. 
+    For the MySQL database, the database initialization scripts are provided to the container, which creates the required database users and tables at startup. For more options, including how to export and back up data, see the [documentation](https://hub.docker.com/_/mysql).
 
-Next we deploy the application we previously built as a `.war` file with an Apache Tomcat server. 
-```
-podman run --pod todo-app \
---name todo-tomcat \
--v "$(pwd)"/target/todo.war:/usr/local/tomcat/webapps/todo.war:z \
-tomcat:9
-```
 
-We provide the database connect information and the application to the Apache Tomcat container. The database connection information is passed in as environment variables, in-line with [12-factor](https://www.12factor.net/) application practices and the application `.war` file is provided as a mount. 
+3. Deploy the application that you built as a WAR file with a Tomcat server.
+    ```
+    podman run --pod todo-app \
+    --name todo-tomcat \
+    -v "$(pwd)"/target/todo.war:/usr/local/tomcat/webapps/todo.war:z \
+    tomcat:9
+    ```
 
-Tomcat deploys the application on startup and the port-mapping to the host makes the application available over the public IP address for the compute instance.
+    The database connect information and the application are provided to the Apache Tomcat container. The database connection information is provided as environment variables, in line with [12 factor](https://www.12factor.net/) application practices, and the application WAR file is provided as a mount.
 
-Finally, we can point our browser at the public IP address of the compute instance and we shall be able to see the application. 
+    Tomcat deploys the application on startup, and the port mapping to the host makes the application available over the public IP address for the compute instance.
+
+
+4. Enter the public IP address of the compute instance in a browser. You should be able to see the application.
 
 ### Debugging and Troubleshooting
 
-Podman containers can be inspected just like Docker containers (you can even alias `podman` as `docker`). Here are some common ways and commands to introspect the containers :
+Podman containers can be inspected just like Docker containers (you can even alias `podman` as `docker`). Here are some common commands for inspecting the containers:
 
-- `podman ps -pa` - shows running and exited containers along with the pods they  belong to. 
-- `podman logs -f todo-mysql` - tails the output from the specified container (`todo-mysql` in this example). Press `Ctrl+c` to exit.
+- `podman ps -pa` - shows running and exited containers, and the pods they belong to. 
+- `podman logs -f todo-mysql` - shows the output from the specified container (`todo-mysql` in this example). Press `Ctrl+c` to exit.
