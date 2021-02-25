@@ -14,7 +14,7 @@ jobs:
             fetch-depth: 0
       - name: Build ToDo WebApp
         run: |
-          docker  run -it --rm --name todo-build \
+          docker  run --rm --name todo-build \
           -v "$(pwd)":/usr/src:z \
           -w /usr/src \
           maven:3.3-jdk-8 mvn clean install
