@@ -18,7 +18,8 @@ yum install -y mysql-connector-java
 # Query MySQL Database
 rm -rf /tmp/query_db.sql
 echo 'use ocidb;' | sudo tee -a /tmp/query_db.sql
-echo 'select * from ocitable;' | sudo tee -a /tmp/query_db.sql
+#echo 'select * from ocitable;' | sudo tee -a /tmp/query_db.sql
+echo 'select * from todos;' | sudo tee -a /tmp/query_db.sql
 
 mysqlsh --user ${db_user_name} --password=${db_user_password} --host ${db_server_ip_address} --file /tmp/query_db.sql --sqlc
 
@@ -31,7 +32,8 @@ setsebool -P tomcat_can_network_connect_db 1
 systemctl start tomcat
 systemctl status tomcat
 systemctl enable tomcat
-cp /home/opc/javaocidemo.war /usr/share/tomcat/webapps/
+wget -O /home/opc/todoapp.war https://github.com/oracle-quickstart/oci-arch-tomcat-mds/releases/latest/download/todoapp.war
+chown opc:opc /home/opc/todoapp.war
 sleep 20
 
 service firewalld stop

@@ -273,9 +273,9 @@ outputs:
     type: copyableString
     visible: true
 
-  loadbalancer_public_url:
-    title: "Loadbalancer Public URL"
-    displayText: "Loadbalancer Public URL"
+  todoapp_url:
+    title: "TODO App URL"
+    displayText: "TODO App URL"
     type: copyableString
     visible: true
 
