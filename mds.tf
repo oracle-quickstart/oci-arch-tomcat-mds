@@ -1,3 +1,6 @@
+## Copyright © 2020, Oracle and/or its affiliates. 
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+
 resource "oci_mysql_mysql_db_system" "mds01_mysql_db_system" {
     admin_password = var.mysql_db_system_admin_password
     admin_username = var.mysql_db_system_admin_username
