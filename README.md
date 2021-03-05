@@ -89,7 +89,7 @@ todoapp_url = http://193.122.204.54/todoapp/list
 
 Then copy it into Web browser. Here is the example of the succesfull outcome:
 
-![](./images/outcome.png)
+![](./images/todoapp.png)
 
 As the load balancer alternates between the 2 Tomcat nodes, the session data should persist.
 
