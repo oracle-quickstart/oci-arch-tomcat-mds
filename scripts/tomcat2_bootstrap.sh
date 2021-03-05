@@ -34,6 +34,7 @@ systemctl status tomcat
 systemctl enable tomcat
 wget -O /home/opc/todoapp.war https://github.com/oracle-quickstart/oci-arch-tomcat-mds/releases/latest/download/todoapp.war
 chown opc:opc /home/opc/todoapp.war
+cp /home/opc/todoapp.war /usr/share/tomcat/webapps/
 sleep 20
 
 service firewalld stop
