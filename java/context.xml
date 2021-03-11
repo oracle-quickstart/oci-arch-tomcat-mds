@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+  <Resource name="jdbc/mysqlPool01"
+          auth="Container"
+          type="javax.sql.DataSource"
+          factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+          testWhileIdle="true"
+          testOnBorrow="true"
+          testOnReturn="false"
+          validationQuery="/* ping */SELECT 1"
+          validationInterval="30000"
+          timeBetweenEvictionRunsMillis="30000"
+          maxActive="100"
+          minIdle="10"
+          maxWait="10000"
+          initialSize="10"
+          removeAbandonedTimeout="60"
+          removeAbandoned="true"
+          logAbandoned="true"
+          minEvictableIdleTimeMillis="30000"
+          jmxEnabled="true"
+          jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;       
+            org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
+          username="${db_user_name}"
+          password="${db_user_password}"
+          driverClassName="com.mysql.cj.jdbc.Driver"
+          useConfigs="maxPerformance"
+          url="jdbc:mysql://${db_server_ip_address}:3306/ocidb"/>
+
+  <WatchedResource>WEB-INF/web.xml</WatchedResource>
+</Context>

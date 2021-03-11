@@ -1,3 +1,13 @@
+# Local .terraform directories
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.bak
+.DS_Store
+output.tf
+test.zip
+tde*.*
 .settings
 .project
 .classpath
