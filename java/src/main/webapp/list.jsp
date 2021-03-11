@@ -31,7 +31,7 @@
               </h3>
               <div
                 class="uk-text-large uk-margin-top uk-margin-left uk-width-1-2">Demo
-                running Apache Tomcat & MySQL on ARM compute instances on OCI
+                running Apache Tomcat & MySQL on compute instances on OCI
               </div>
               <div
                 class="uk-grid-collapse uk-margin-large-top uk-margin-left  uk-child-width-expand uk-width-1-2"
