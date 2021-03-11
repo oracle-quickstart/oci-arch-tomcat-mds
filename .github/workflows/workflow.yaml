@@ -1,9 +1,10 @@
 name: Build and push Docker images
 
 on:
+  pull_request:
   push:
     branches:
-      - master
+      - main
 jobs:
   build-war:
     runs-on: ubuntu-latest
