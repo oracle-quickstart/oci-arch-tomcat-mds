@@ -8,3 +8,8 @@
 output.tf
 test.zip
 tde*.*
+.settings
+.project
+.classpath
+target
+*.pdf
