@@ -1,15 +1,15 @@
-# Run Apache Tomcat with MySQL on Arm
+# Run Apache Tomcat with MySQL on OCI
 
-This example shows how to run a simple Java web app on Apache Tomcat using MySQL. Both Tomcat and the MySQL instance are running on Arm-based compute instances from Oracle Cloud Infrastructure.
+This example shows how to run a simple Java web app on Apache Tomcat using MySQL. Both Tomcat and the MySQL instance are running on compute instances from Oracle Cloud Infrastructure.
 
 ### Prerequisites
 
-To run this example, you need to have  an Oracle Cloud Infrastructure A1 compute instance that you can [access by using SSH](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/managingkeypairs.htm#one).  
+To run this example, you need to have an Oracle Cloud Infrastructure compute instance that you can [access by using SSH](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/managingkeypairs.htm#one).  
 Also, [allow traffic](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securitylists.htm#working) on port 8080.
   
 ## How to run this example
 
-To run this application, first prepare an A1 instance with a few required packages, such as container tools and `git`. Then, clone the repository and build the application by using the included Maven `pom.xml`. Lastly, start the MySQL and Tomcat docker containers by using the container tools.
+To run this application, first prepare a compute instance with a few required packages, such as container tools and `git`. Then, clone the repository and build the application by using the included Maven `pom.xml`. Lastly, start the MySQL and Tomcat docker containers by using the container tools.
 
 ### Install container tools
 
@@ -57,9 +57,9 @@ podman run -it --rm --name todo-build \
 ```
 This command creates a `target` directory and the WAR file inside it. Note that we aren’t installing Maven but instead running the build tooling inside the container. 
 
-### Run the application on the A1 compute shapes
+### Run the application on OCI
 
-The application uses the Tomcat servlet container and the MySQL database. Both Tomcat and the MySQL database support the ARM64v8 architecture that the Oracle Cloud Infrastructure A1 compute shape uses.
+The application uses the Tomcat servlet container and the MySQL database.
 
 1. Create a pod using Podman.
     ```
