@@ -40,6 +40,7 @@ variableGroups:
   - InstanceShape
   - instance_os
   - linux_os_version
+  - mysql_shape_name
   - mysql_db_system_admin_username
   - mysql_db_name
   - mysql_db_system_backup_policy_is_enabled
@@ -213,6 +214,29 @@ variables:
     default: "7.8"
     enum:
       - "7.8"
+
+  mysql_shape_name:
+    type: enum
+    required: false
+    default: "MySQL.VM.Standard.E3.1.8GB"
+    title: "MDS Shape"
+    description: "Choose MDS Shape for your MDS deployment."
+    enum:
+      - "VM.Standard.E2.1"
+      - "VM.Standard.E2.2"
+      - "VM.Standard.E2.4"  
+      - "VM.Standard.E2.8"
+      - "MySQL.VM.Standard.E3.1.8GB"
+      - "MySQL.VM.Standard.E3.1.16GB"      
+      - "MySQL.VM.Standard.E3.2.32GB"
+      - "MySQL.VM.Standard.E3.4.64GB"
+      - "MySQL.VM.Standard.E3.8.128GB"
+      - "MySQL.VM.Standard.E3.16.256GB"
+      - "MySQL.VM.Standard.E3.24.384GB"
+      - "MySQL.VM.Standard.E3.32.512GB"
+      - "MySQL.VM.Standard.E3.48.768GB"    
+      - "MySQL.VM.Standard.E3.64.1024GB"  
+      - "MySQL.HeatWave.VM.Standard.E3"      
 
   mysql_db_system_admin_username:
     type: string

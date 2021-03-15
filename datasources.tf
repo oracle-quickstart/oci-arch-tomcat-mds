@@ -22,7 +22,8 @@ data "oci_core_images" "InstanceImageOCID" {
 #Get list of MySQL configuration
 data "oci_mysql_mysql_configurations" "mds_mysql_configurations" {
     compartment_id = var.compartment_ocid
-
+    type = ["DEFAULT"]
+    shape_name = var.mysql_shape_name
 }
 
 data "oci_core_vnic_attachments" "tomcat-server1_primaryvnic_attach" {

@@ -3,7 +3,7 @@
 
 variable "release" {
   description = "Reference Architecture Release (OCI Architecture Center)"
-  default     = "1.0"
+  default     = "1.2"
 }
 
 variable "tenancy_ocid" {}
@@ -90,7 +90,11 @@ variable "mysql_db_name" {
 
 # variable mysql_db_system_availability_domain {}
 # variable mysql_configuration_id {}
-# variable mysql_shape_name {} 
+
+variable mysql_shape_name {
+  default = "MySQL.VM.Standard.E3.1.8GB"
+} 
+
 variable mysql_db_system_backup_policy_is_enabled {
   default = true
 }
