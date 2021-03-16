@@ -57,7 +57,7 @@ Licensed under the Universal Permissive License v 1.0 as shown at http://oss.ora
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.13.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
