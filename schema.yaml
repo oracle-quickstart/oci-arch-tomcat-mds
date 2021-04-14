@@ -13,18 +13,32 @@ variableGroups:
   variables:
   - tenancy_ocid
   - region
+  - release
 
 - title: Required Configuration
   visible: true  
   variables:
   - mysql_db_system_admin_password
   - compartment_ocid
-  - availablity_domain_name 
+  - availablity_domain_name
+  - numberOfNodes
+  - tomcat_version 
+  - show_advanced
 
-- title: Optional Configuration
-  visible: true
+- title: Load Balancer Configuration
+  visible: 
+      and:
+        - show_advanced
   variables:
-  - lb_shape  
+  - lb_shape 
+  - flex_lb_min_shape
+  - flex_lb_max_shape 
+
+- title: Network Configuration
+  visible: 
+      and:
+        - show_advanced
+  variables:
   - igw_display_name
   - vcn01_cidr_block
   - vcn01_dns_label
@@ -37,9 +51,24 @@ variableGroups:
   - vcn01_subnet_app01_display_name 
   - vcn01_subnet_db01_cidr_block
   - vcn01_subnet_db01_display_name
+
+- title: Compute Instances Configuration
+  visible: 
+      and:
+        - show_advanced
+  variables:
+  - ssh_public_key
   - InstanceShape
+  - InstanceFlexShapeOCPUS
+  - InstanceFlexShapeMemory
   - instance_os
   - linux_os_version
+
+- title: MySQL Database System Configuration
+  visible: 
+      and:
+        - show_advanced
+  variables:
   - mysql_shape_name
   - mysql_db_system_admin_username
   - mysql_db_name
@@ -47,9 +76,15 @@ variableGroups:
   - mysql_db_system_data_storage_size_in_gb
   - mysql_db_system_display_name
   - mysql_db_system_hostname_label
-  - release
 
 variables:
+
+  show_advanced:
+    type: boolean
+    title: "Show advanced options?"
+    description: "Shows advanced options."
+    visible: true
+    default: false
   
   compartment_ocid:
     type: oci:identity:compartment:id
@@ -74,6 +109,27 @@ variables:
     dependsOn:
       compartmentId: ${compartment_ocid}
 
+  numberOfNodes:
+    type: number
+    required: false
+    minimum: 1
+    maximum: 128
+    multipleOf: 1
+    default: 2
+    title: "How many Tomcat Nodes?"
+    description: "Choose number of Tomcat Nodes to be deployed."
+
+  tomcat_version:
+    type: enum
+    title: "Tomcat Version"
+    description: "Choose Tomcat Version"
+    default: "9.0.45"
+    required: false 
+    enum:
+      - "9.0.45"
+      - "8.5.65"
+      - "7.0.108"
+
   mysql_db_system_admin_password:
     type: password
     required: true
@@ -90,14 +146,52 @@ variables:
     type: enum
     title: "LoadBalanacer Shape"
     description: "Choose LoadBalanacer Shape"
-    default: "100Mbps"
+    default: "flexible"
     required: false 
     enum:
+      - "flexible"
       - "100Mbps"
       - "10Mbps"
       - "10Mbps-Micro"
       - "400Mbps"
       - "8000Mbps"
+
+  flex_lb_min_shape:
+    type: enum
+    required: false
+    default: "10"
+    title: "LB Flex Min Shape"
+    description: "Choose Minimum Shape for Flex Load Balancer."
+    enum:
+      - "10"
+      - "100"
+      - "1000"
+      - "400"
+      - "8000"
+    visible:
+      and:
+        - eq:
+          - lb_shape 
+          - "flexible"
+
+
+  flex_lb_max_shape:
+    type: enum
+    required: false
+    default: "100"
+    title: "LB Flex Max Shape"
+    description: "Choose Maximum Shape for Flex Load Balancer."
+    enum:
+      - "10"
+      - "100"
+      - "1000"
+      - "400"
+      - "8000"
+    visible:
+      and:
+        - eq:
+          - lb_shape 
+          - "flexible"
 
   igw_display_name:
     type: string
@@ -188,15 +282,59 @@ variables:
     description: "Choose Display Name for your MDS Private Subnet."
     default: "vcn01_subnet_db01"
 
+  ssh_public_key:
+    type: oci:core:ssh:publickey
+    title: "Public SSH Key"
+    description: "Choose public SSH Key to be uploaded into compute instances."
+    required: false
+    
   InstanceShape:
     type: oci:core:instanceshape:name
     required: false
     title: "Instance Shape"
     description: "A shape is a template that determines the number of CPUs, amount of memory, and other resources allocated to a newly created instance."
-    default: "VM.Standard2.1"
+    default: "VM.Standard.E3.Flex"
     dependsOn:
       compartmentId: ${compartment_ocid}
-  
+
+  InstanceFlexShapeOCPUS:
+    type: number
+    required: false
+    minimum: 1
+    maximum: 128
+    multipleOf: 1
+    default: 1
+    title: "Flex Shape OCPUs"
+    description: "Choose number of OCPUs for Flex Shape."
+    visible:
+      and:
+        - or:
+          - eq:
+            - InstanceShape 
+            - "VM.Standard.E3.Flex"
+          - eq:
+            - InstanceShape 
+            - "VM.Standard.E4.Flex"
+
+  InstanceFlexShapeMemory:
+    type: number
+    required: false
+    minimum: 1
+    maximum: 128
+    multipleOf: 1
+    default: 10
+    title: "Flex Shape Memory (GB)"
+    description: "Choose number GB for Flex Shape Memory."
+    visible:
+      and:
+        - or:
+          - eq:
+            - InstanceShape 
+            - "VM.Standard.E3.Flex"
+          - eq:
+            - InstanceShape 
+            - "VM.Standard.E4.Flex"
+
   instance_os:
     type: enum
     required: false
@@ -211,9 +349,10 @@ variables:
     required: false
     title: "Instance OS version"
     description: "An Operating System version that determines the operating system version for the instance."
-    default: "7.8"
+    default: "8"
     enum:
-      - "7.8"
+      - "8"
+      - "7.9"
 
   mysql_shape_name:
     type: enum
@@ -306,17 +445,5 @@ outputs:
   bastion_public_ip:
     title: "Bastion Host Public IP"
     displayText: "Bastion Host Public IP"
-    type: string
-    visible: true
-
-  tomcat-server1_private_ip:
-    title: "Tomcat Server1 Private IP"
-    displayText: "Tomcat Server1 Private IP"
-    type: string
-    visible: true
-
-  tomcat-server2_private_ip:
-    title: "Tomcat Server2 Private IP"
-    displayText: "Tomcat Server2 Private IP"
     type: string
     visible: true

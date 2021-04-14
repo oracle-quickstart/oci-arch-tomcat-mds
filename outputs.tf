@@ -10,10 +10,7 @@ output "bastion_public_ip" {
   value = oci_core_instance.bastion_instance.public_ip
 }
 
-output "tomcat1-server_private_ip" {
-  value = data.oci_core_vnic.tomcat-server1_primaryvnic.private_ip_address
+output "tomcat-server_private_ips" {
+  value = data.oci_core_vnic.tomcat-server_primaryvnic.*.private_ip_address
 }
 
-output "tomcat2-server_private_ip" {
-  value = data.oci_core_vnic.tomcat-server2_primaryvnic.private_ip_address
-}

@@ -65,6 +65,9 @@ availablity_domain_name = "<availablity_domain_name>"
 # Compartment
 compartment_ocid = "<compartment_ocid>"
 
+# Number of Tomcat nodes (optional)
+numberOfNodes = 2
+
 # MySQL DBSystem Admin Password 
 mysql_db_system_admin_password = "<mysql_password>"
 

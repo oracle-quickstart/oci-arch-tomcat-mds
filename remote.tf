@@ -1,25 +1,27 @@
 ## Copyright © 2020, Oracle and/or its affiliates. 
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
-data "template_file" "tomcat_template1" {
-  template = file("./scripts/tomcat1_bootstrap.sh")
+data "template_file" "tomcat_service_template" {
+  count = var.numberOfNodes
+  template = file("./scripts/tomcat.service")
 
   vars = {
-    db_name              = var.mysql_db_name
-    db_user_name         = var.mysql_db_system_admin_username
-    db_user_password     = var.mysql_db_system_admin_password
-    db_server_ip_address = oci_mysql_mysql_db_system.mds01_mysql_db_system.ip_address
+    tomcat_version = var.tomcat_version
   }
 }
 
-data "template_file" "tomcat_template2" {
-  template = file("./scripts/tomcat2_bootstrap.sh")
-  
+data "template_file" "tomcat_bootstrap_template" {
+  count = var.numberOfNodes
+  template = file("./scripts/tomcat_bootstrap.sh")
+
   vars = {
     db_name              = var.mysql_db_name
     db_user_name         = var.mysql_db_system_admin_username
     db_user_password     = var.mysql_db_system_admin_password
     db_server_ip_address = oci_mysql_mysql_db_system.mds01_mysql_db_system.ip_address
+    tomcat_host          = "tomcat-server-${count.index}"
+    tomcat_version       = var.tomcat_version
+    tomcat_major_release = split(".", var.tomcat_version)[0]
   }
 }
 
@@ -33,14 +35,15 @@ data "template_file" "tomcat_context_xml" {
   }
 }
 
-resource "null_resource" "tomcat1_bootstrap" {
-  depends_on = [oci_core_instance.tomcat-server1]
+resource "null_resource" "tomcat_bootstrap" {
+  count      = var.numberOfNodes
+  depends_on = [oci_core_instance.tomcat-server]
 
   provisioner "file" {
     connection {
       type        = "ssh"
       user        = "opc"
-      host        = data.oci_core_vnic.tomcat-server1_primaryvnic.private_ip_address
+      host        = data.oci_core_vnic.tomcat-server_primaryvnic[count.index].private_ip_address
       private_key = tls_private_key.public_private_key_pair.private_key_pem
       script_path = "/home/opc/myssh.sh"
       agent       = false
@@ -51,15 +54,34 @@ resource "null_resource" "tomcat1_bootstrap" {
       bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
     }
 
-    content     = data.template_file.tomcat_template1.rendered
-    destination = "/home/opc/tomcat1_bootstrap.sh"
+    content     = data.template_file.tomcat_bootstrap_template[count.index].rendered
+    destination = "/home/opc/tomcat_bootstrap.sh"
   }
 
   provisioner "file" {
     connection {
       type        = "ssh"
       user        = "opc"
-      host        = data.oci_core_vnic.tomcat-server1_primaryvnic.private_ip_address
+      host        = data.oci_core_vnic.tomcat-server_primaryvnic[count.index].private_ip_address
+      private_key = tls_private_key.public_private_key_pair.private_key_pem
+      script_path = "/home/opc/myssh.sh"
+      agent       = false
+      timeout     = "10m"
+      bastion_host = oci_core_instance.bastion_instance.public_ip
+      bastion_port = "22"
+      bastion_user = "opc"
+      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
+    }
+
+    content     = data.template_file.tomcat_service_template[count.index].rendered
+    destination = "/home/opc/tomcat.service"
+  }
+
+  provisioner "file" {
+    connection {
+      type        = "ssh"
+      user        = "opc"
+      host        = data.oci_core_vnic.tomcat-server_primaryvnic[count.index].private_ip_address
       private_key = tls_private_key.public_private_key_pair.private_key_pem
       script_path = "/home/opc/myssh.sh"
       agent       = false
@@ -77,7 +99,7 @@ resource "null_resource" "tomcat1_bootstrap" {
     connection {
       type        = "ssh"
       user        = "opc"
-      host        = data.oci_core_vnic.tomcat-server1_primaryvnic.private_ip_address
+      host        = data.oci_core_vnic.tomcat-server_primaryvnic[count.index].private_ip_address
       private_key = tls_private_key.public_private_key_pair.private_key_pem
       script_path = "/home/opc/myssh.sh"
       agent       = false
@@ -89,71 +111,10 @@ resource "null_resource" "tomcat1_bootstrap" {
   
     }
     inline = [
-     "chmod +x ~/tomcat1_bootstrap.sh",
-     "sudo ~/tomcat1_bootstrap.sh"
+     "chmod +x ~/tomcat_bootstrap.sh",
+     "sudo ~/tomcat_bootstrap.sh"
+
     ]
   }
 }
 
-resource "null_resource" "tomcat2_bootstrap" {
-  depends_on = [oci_core_instance.tomcat-server2, null_resource.tomcat1_bootstrap]
-
-  provisioner "file" {
-    connection {
-      type        = "ssh"
-      user        = "opc"
-      host        = data.oci_core_vnic.tomcat-server2_primaryvnic.private_ip_address
-      private_key = tls_private_key.public_private_key_pair.private_key_pem
-      script_path = "/home/opc/myssh.sh"
-      agent       = false
-      timeout     = "10m"
-      bastion_host = oci_core_instance.bastion_instance.public_ip
-      bastion_port = "22"
-      bastion_user = "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
-    }
-
-    content     = data.template_file.tomcat_template2.rendered
-    destination = "~/tomcat2_bootstrap.sh"
-  }
-
-  provisioner "file" {
-    connection {
-      type        = "ssh"
-      user        = "opc"
-      host        = data.oci_core_vnic.tomcat-server2_primaryvnic.private_ip_address
-      private_key = tls_private_key.public_private_key_pair.private_key_pem
-      script_path = "/home/opc/myssh.sh"
-      agent       = false
-      timeout     = "10m"
-      bastion_host = oci_core_instance.bastion_instance.public_ip
-      bastion_port = "22"
-      bastion_user = "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
-    }
-
-    content     = data.template_file.tomcat_context_xml.rendered
-    destination = "~/context.xml"
-  }
-
-  provisioner "remote-exec" {
-    connection {
-      type        = "ssh"
-      user        = "opc"
-      host        = data.oci_core_vnic.tomcat-server2_primaryvnic.private_ip_address
-      private_key = tls_private_key.public_private_key_pair.private_key_pem
-      script_path = "/home/opc/myssh.sh"
-      agent       = false
-      timeout     = "10m"
-      bastion_host = oci_core_instance.bastion_instance.public_ip
-      bastion_port = "22"
-      bastion_user = "opc"
-      bastion_private_key = tls_private_key.public_private_key_pair.private_key_pem
-
-    }
-    inline = [
-      "chmod +x ~/tomcat2_bootstrap.sh",
-      "sudo ~/tomcat2_bootstrap.sh"
-    ]
-  }
-}
