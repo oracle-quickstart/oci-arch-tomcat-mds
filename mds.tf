@@ -12,5 +12,6 @@ resource "oci_mysql_mysql_db_system" "mds01_mysql_db_system" {
     data_storage_size_in_gb = var.mysql_db_system_data_storage_size_in_gb
     display_name = var.mysql_db_system_display_name
     hostname_label = var.mysql_db_system_hostname_label
+    is_highly_available = var.mysql_is_highly_available
     defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }

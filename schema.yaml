@@ -68,8 +68,9 @@ variableGroups:
   visible: 
       and:
         - show_advanced
-  variables:
+  variables: 
   - mysql_shape_name
+  - mysql_is_highly_available 
   - mysql_db_system_admin_username
   - mysql_db_name
   - mysql_db_system_backup_policy_is_enabled
@@ -130,12 +131,19 @@ variables:
       - "8.5.65"
       - "7.0.108"
 
+  mysql_is_highly_available:
+    type: boolean
+    title: "MySQL Database System in HA?"
+    description: "Choose if MySQL Database System should be highly available."
+    visible: true
+    default: false
+
   mysql_db_system_admin_password:
     type: password
     required: true
     visibile: true
-    title: "MDS Admin Password"
-    description: "Type MySQL DBSystem (MDS) Admin Password"
+    title: "MySQL Database System Admin Password"
+    description: "Type MySQL Database System (MDS) Admin Password"
     minLength: 9
     maxLength: 30
     pattern: ^[A-Za-z][A-Za-z0-9_#\$]+$ 
@@ -358,8 +366,8 @@ variables:
     type: enum
     required: false
     default: "MySQL.VM.Standard.E3.1.8GB"
-    title: "MDS Shape"
-    description: "Choose MDS Shape for your MDS deployment."
+    title: "MySQL Database System Shape"
+    description: "Choose MySQL Database System Shape (MDS) for your deployment."
     enum:
       - "VM.Standard.E2.1"
       - "VM.Standard.E2.2"
@@ -380,23 +388,23 @@ variables:
   mysql_db_system_admin_username:
     type: string
     required: false
-    title: "MDS Admin Username"
-    description: "Type MDS Admin Username."
+    title: "MySQL Database System Admin Username"
+    description: "Type Database System (MDS) Admin Username."
     default: "admin"
 
   mysql_db_name:
     type: string
     required: false
-    title: "MDS DB Name"
-    description: "Type MDS DB Name."
+    title: "MySQL Database System DB Name"
+    description: "Type MySQL Database System (MDS) DB Name."
     default: "mydb"
 
   mysql_db_system_backup_policy_is_enabled:
     type: boolean 
     default: true
     required: false
-    title: "MDS DBSystem Backup Policy Enabled"
-    description: "MDS DBSystem Backup Policy Enabled."
+    title: "MySQL Database System Backup Policy Enabled"
+    description: "MySQL Database System (MDS) Backup Policy Enabled."
 
   mysql_db_system_data_storage_size_in_gb:
     type: number
@@ -405,21 +413,21 @@ variables:
     maximum: 65536
     multipleOf: 1
     default: 50 
-    title: "MDS DBSystem Data Storage size in GB"
-    description: "Choose MDS DBSystem Data Storage size in GB."
+    title: "MySQL Database System Data Storage size in GB"
+    description: "Choose MySQL Database System (MDS) Data Storage size in GB."
 
   mysql_db_system_display_name: 
     type: string
     required: false
-    title: "MDS DBSystem Display Name"
-    description: "Type MDS DBSystem Display Name."
+    title: "MySQL Database System Display Name"
+    description: "Type MySQL Database System (MDS) Display Name."
     default: "mysql_service"
 
   mysql_db_system_hostname_label: 
     type: string
     required: false
-    title: "MDS DBSystem Hostname Label"
-    description: "Type MDS DBSystem Hostname Label."
+    title: "MySQL Database System Hostname Label"
+    description: "Type MySQL Database System (MDS) Hostname Label."
     default: "mysqlhost"
 
   release:

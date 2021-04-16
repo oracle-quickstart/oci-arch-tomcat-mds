@@ -120,19 +120,23 @@ variable "mysql_db_name" {
 # variable mysql_db_system_availability_domain {}
 # variable mysql_configuration_id {}
 
-variable mysql_shape_name {
+variable "mysql_shape_name" {
   default = "MySQL.VM.Standard.E3.1.8GB"
 } 
 
-variable mysql_db_system_backup_policy_is_enabled {
+variable "mysql_is_highly_available" {
+  default = false
+}
+
+variable "mysql_db_system_backup_policy_is_enabled" {
   default = true
 }
-variable mysql_db_system_data_storage_size_in_gb {
+variable "mysql_db_system_data_storage_size_in_gb" {
   default = 50
 }
-variable mysql_db_system_display_name {
+variable "mysql_db_system_display_name" {
   default = "mysql_service"
 }
-variable mysql_db_system_hostname_label {
+variable "mysql_db_system_hostname_label" {
   default = "mysqlhost"
 }
