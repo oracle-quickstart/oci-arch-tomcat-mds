@@ -18,9 +18,9 @@ variableGroups:
 - title: Required Configuration
   visible: true  
   variables:
-  - mysql_db_system_admin_password
   - compartment_ocid
   - availablity_domain_name
+  - mysql_db_system_admin_password
   - numberOfNodes
   - tomcat_version 
   - show_advanced
