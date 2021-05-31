@@ -182,7 +182,6 @@ variables:
           - lb_shape 
           - "flexible"
 
-
   flex_lb_max_shape:
     type: enum
     required: false
@@ -301,7 +300,7 @@ variables:
     required: false
     title: "Instance Shape"
     description: "A shape is a template that determines the number of CPUs, amount of memory, and other resources allocated to a newly created instance."
-    default: "VM.Standard.A1.Flex"
+    default: "VM.Standard.E3.Flex"
     dependsOn:
       compartmentId: ${compartment_ocid}
 
@@ -336,7 +335,7 @@ variables:
     minimum: 1
     maximum: 128
     multipleOf: 1
-    default: 10
+    default: 6
     title: "Flex Shape Memory (GB)"
     description: "Choose number GB for Flex Shape Memory."
     visible:
