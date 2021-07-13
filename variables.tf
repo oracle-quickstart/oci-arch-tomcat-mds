@@ -1,9 +1,9 @@
-## Copyright © 2020, Oracle and/or its affiliates. 
+## Copyright © 2021, Oracle and/or its affiliates. 
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
 variable "release" {
   description = "Reference Architecture Release (OCI Architecture Center)"
-  default     = "1.5"
+  default     = "1.6"
 }
 
 variable "tenancy_ocid" {}
@@ -12,9 +12,18 @@ variable "compartment_ocid" {}
 variable "fingerprint" {}
 variable "user_ocid" {}
 variable "private_key_path" {}
-variable "availablity_domain_name" {}
+variable "availablity_domain_name" {
+  default = ""
+}
 variable "mysql_db_system_admin_password" {}
 
+variable "use_bastion_service" {
+  default = true
+}
+
+variable "availablity_domain_number" {
+  default = 0
+}
 
 variable "ssh_public_key" {
   default = ""
@@ -87,15 +96,15 @@ variable "flex_lb_max_shape" {
 }
 
 variable "InstanceShape" {
-   default = "VM.Standard.A1.Flex"
+  default = "VM.Standard.E3.Flex"
 }
 
 variable "InstanceFlexShapeOCPUS" {
-    default = 1
+  default = 1
 }
 
 variable "InstanceFlexShapeMemory" {
-    default = 1
+  default = 1
 }
 
 variable "instance_os" {
@@ -106,7 +115,7 @@ variable "instance_os" {
 variable "linux_os_version" {
   description = "Operating system version for all Linux instances"
   default     = "8"
-#  default     = "7.9"
+  #  default     = "7.9"
 }
 
 variable "mysql_db_system_admin_username" {
@@ -122,7 +131,7 @@ variable "mysql_db_name" {
 
 variable "mysql_shape_name" {
   default = "MySQL.VM.Standard.E3.1.8GB"
-} 
+}
 
 variable "mysql_is_highly_available" {
   default = false

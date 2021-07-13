@@ -14,6 +14,7 @@ variableGroups:
   - tenancy_ocid
   - region
   - release
+  - availablity_domain_number
 
 - title: Required Configuration
   visible: true  
@@ -22,7 +23,8 @@ variableGroups:
   - availablity_domain_name
   - mysql_db_system_admin_password
   - numberOfNodes
-  - tomcat_version 
+  - tomcat_version
+  - use_bastion_service
   - show_advanced
 
 - title: Load Balancer Configuration
@@ -119,6 +121,14 @@ variables:
     default: 2
     title: "How many Tomcat Nodes?"
     description: "Choose number of Tomcat Nodes to be deployed."
+
+  use_bastion_service:
+    type: boolean
+    visibile: true
+    default: false
+    required: false
+    title: "Use OCI Bastion Service"
+    description: "Check the box to use OCI Bastion Service instead of Bastion Host VM."
 
   tomcat_version:
     type: enum
