@@ -68,6 +68,10 @@ resource "oci_core_instance" "tomcat-server" {
     boot_volume_size_in_gbs = "50"
   }
 
+  provisioner "local-exec" {
+    command = "sleep 240"
+  }
+
   metadata = {
     ssh_authorized_keys = var.ssh_public_key
     user_data           = data.template_cloudinit_config.cloud_init.rendered

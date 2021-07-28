@@ -83,7 +83,7 @@ resource "oci_core_route_table" "vnc01_nat_route_table" {
   display_name   = "NAT_RT"
   route_rules {
     network_entity_id = oci_core_nat_gateway.vcn01_nat_gateway.id
-    cidr_block        = "0.0.0.0/0"
+    destination        = "0.0.0.0/0"
     destination_type  = "CIDR_BLOCK"
   }
   defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
