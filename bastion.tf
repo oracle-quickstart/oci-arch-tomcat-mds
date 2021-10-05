@@ -9,7 +9,7 @@ resource "oci_bastion_bastion" "bastion-service" {
   client_cidr_block_allow_list = ["0.0.0.0/0"]
   defined_tags                 = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
   name                         = "BastionService${random_id.tag.hex}"
-  max_session_ttl_in_seconds   = 1800
+  max_session_ttl_in_seconds   = 10800
 }
 
 resource "oci_bastion_session" "ssh_via_bastion_service" {
@@ -40,7 +40,7 @@ resource "oci_bastion_session" "ssh_via_bastion_service" {
 
   display_name           = "ssh_via_bastion_service"
   key_type               = "PUB"
-  session_ttl_in_seconds = 1800
+  session_ttl_in_seconds = 10800
 }
 
 

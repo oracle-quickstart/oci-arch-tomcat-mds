@@ -3,7 +3,7 @@
 
 variable "release" {
   description = "Reference Architecture Release (OCI Architecture Center)"
-  default     = "1.6"
+  default     = "1.6.1"
 }
 
 variable "tenancy_ocid" {}
@@ -18,7 +18,7 @@ variable "availablity_domain_name" {
 variable "mysql_db_system_admin_password" {}
 
 variable "use_bastion_service" {
-  default = true
+  default = false
 }
 
 variable "availablity_domain_number" {
